@@ -217,6 +217,7 @@
     <Compile Include="search\framework\problem\Problem.cs" />
     <Compile Include="search\framework\problem\ResultFunction.cs" />
     <Compile Include="search\framework\problem\StepCostFunction.cs" />
+    <Compile Include="search\framework\qsearch\DepthFirstSearch.cs" />
     <Compile Include="search\framework\qsearch\GraphSearch.cs" />
     <Compile Include="search\framework\qsearch\GraphSearchBFS.cs" />
     <Compile Include="search\framework\qsearch\QueueSearch.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="util\Interval.cs" />
     <Compile Include="util\LabeledGraph.cs" />
     <Compile Include="util\LinkedHashSet.cs" />
+    <Compile Include="util\ListExtensions.cs" />
     <Compile Include="util\LUDecomposition.cs" />
     <Compile Include="util\Matrix.cs" />
     <Compile Include="util\MixedRadixNumber.cs" />

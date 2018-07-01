@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using aima.core.search.framework;
 using aima.core.search.framework.problem;
+using aima.core.util;
 
 namespace aima.core.search.framework.qsearch
 {
@@ -29,50 +30,50 @@ namespace aima.core.search.framework.qsearch
      * @author Ruediger Lunde
      * 
      */
-     public class TreeSearch : QueueSearch
+    public class TreeSearch : QueueSearch
     {
-	public TreeSearch(): this(new NodeExpander())
-	{
+        public TreeSearch() : this(new NodeExpander())
+        {
 
-	}
+        }
 
-	public TreeSearch(NodeExpander nodeExpander): base(nodeExpander)
-	{
-	    
-	}
+        public TreeSearch(NodeExpander nodeExpander) : base(nodeExpander)
+        {
 
-	/**
-	 * Inserts the node at the tail of the frontier.
-	 */	
-	protected override void addToFrontier(Node node)
-	{
-	    frontier.Enqueue(node);
-	    updateMetrics(frontier.Count);
-	}
+        }
 
-	/**
-	 * Removes and returns the node at the head of the frontier.
-	 * 
-	 * @return the node at the head of the frontier.
-	 */
-	protected override Node removeFromFrontier()
-	{
-	    Node result = frontier.Dequeue();
-	    updateMetrics(frontier.Count);
-	    return result;
-	}
+        /**
+         * Inserts the node at the tail of the frontier.
+         */
+        protected override void addToFrontier(Node node)
+        {
+            frontier.Add(node);
+            updateMetrics(frontier.Count);
+        }
 
-	/**
-	 * Checks whether the frontier contains not yet expanded nodes.
-	 */
-	protected override bool isFrontierEmpty()
-	{
-	    if(frontier.Count == 0)
-	    {
-		return true;
-	    }
-	    else
-		return false;
-	}
+        /**
+         * Removes and returns the node at the head of the frontier.
+         * 
+         * @return the node at the head of the frontier.
+         */
+        protected override Node removeFromFrontier()
+        {
+            Node result = frontier.PopAt(0);
+            updateMetrics(frontier.Count);
+            return result;
+        }
+
+        /**
+         * Checks whether the frontier contains not yet expanded nodes.
+         */
+        protected override bool isFrontierEmpty()
+        {
+            if (frontier.Count == 0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }

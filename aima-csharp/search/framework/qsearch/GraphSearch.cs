@@ -3,6 +3,7 @@ using System.Linq;
 using aima.core.agent;
 using aima.core.search.framework;
 using aima.core.search.framework.problem;
+using aima.core.util;
 
 namespace aima.core.search.framework.qsearch
 {
@@ -39,77 +40,77 @@ namespace aima.core.search.framework.qsearch
      */
     public class GraphSearch : QueueSearch
     {
-	private HashSet<object> explored = new HashSet<object>();
+        private HashSet<object> explored = new HashSet<object>();
 
-	public GraphSearch() : this(new NodeExpander())
-	{
+        public GraphSearch() : this(new NodeExpander())
+        {
 
-	}
+        }
 
-	public GraphSearch(NodeExpander nodeExpander): base(nodeExpander)
-	{
-	    
-	}
+        public GraphSearch(NodeExpander nodeExpander) : base(nodeExpander)
+        {
 
-	/**
-	 * Clears the set of explored states and calls the search implementation of
-	 * <code>QueSearch</code>
-	 */	
-	public override List<Action> search(Problem problem, Queue<Node> frontier)
-	{
-	    // initialize the explored set to be empty
-	    explored.Clear();
-	    // expandedNodes = new List<Node>();
-	    return base.search(problem, frontier);
-	}
+        }
 
-	/**
-	 * Inserts the node at the tail of the frontier if the corresponding state
-	 * was not yet explored.
-	 */
-	protected override void addToFrontier(Node node)
-	{
-	    if (!explored.Contains(node.State))
-	    {
-		frontier.Enqueue(node);
-		updateMetrics(frontier.Count);
-	    }
-	}
+        /**
+         * Clears the set of explored states and calls the search implementation of
+         * <code>QueSearch</code>
+         */
+        public override List<Action> search(Problem problem, List<Node> frontier)
+        {
+            // initialize the explored set to be empty
+            explored.Clear();
+            // expandedNodes = new List<Node>();
+            return base.search(problem, frontier);
+        }
 
-	/**
-	 * Removes the node at the head of the frontier, adds the corresponding
-	 * state to the explored set, and returns the node. As the template method
-	 * (the caller) calls {@link #isFrontierEmpty() before, the resulting node
-	 * state will always be unexplored yet.
-	 * 
-	 * @return the node at the head of the frontier.
-	 */
-	protected override Node removeFromFrontier()
-	{
-	    Node result = frontier.Dequeue();
-	    // add the node to the explored set
-	    explored.Add(result.State);
-	    updateMetrics(frontier.Count);
-	    return result;
-	}
+        /**
+         * Inserts the node at the tail of the frontier if the corresponding state
+         * was not yet explored.
+         */
+        protected override void addToFrontier(Node node)
+        {
+            if (!explored.Contains(node.State))
+            {
+                frontier.Add(node);
+                updateMetrics(frontier.Count);
+            }
+        }
 
-	/**
-	 * Pops nodes of already explored states from the top end of the frontier
-	 * and checks whether there are still some nodes left.
-	 */
-	protected override bool isFrontierEmpty()
-	{
-	    while (!(frontier.Count==0) && explored.Contains(frontier.Peek().State))
-		{
-		    frontier.Dequeue();
-		}
-	    updateMetrics(frontier.Count);
-	    if (frontier.Count == 0)
-	    {
-		return true;
-	    }
-	    else
-		return false;
-	}	
+        /**
+         * Removes the node at the head of the frontier, adds the corresponding
+         * state to the explored set, and returns the node. As the template method
+         * (the caller) calls {@link #isFrontierEmpty() before, the resulting node
+         * state will always be unexplored yet.
+         * 
+         * @return the node at the head of the frontier.
+         */
+        protected override Node removeFromFrontier()
+        {
+            Node result = frontier.PopAt(0);
+            // add the node to the explored set
+            explored.Add(result.State);
+            updateMetrics(frontier.Count);
+            return result;
+        }
+
+        /**
+         * Pops nodes of already explored states from the top end of the frontier
+         * and checks whether there are still some nodes left.
+         */
+        protected override bool isFrontierEmpty()
+        {
+            while (!(frontier.Count == 0) && explored.Contains(frontier.First().State))
+            {
+                frontier.PopAt(0);
+            }
+            updateMetrics(frontier.Count);
+            if (frontier.Count == 0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }
